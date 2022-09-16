@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="./todoticker.css" />
+    <script
+      src="https://kit.fontawesome.com/6631b3c549.js"
+      crossorigin="anonymous"
+    ></script>
+    <title>TodoTicker</title>
+  </head>
+  <body>
+    <section class="main">
+      <nav class="nav">
+        <div class="nav-content"></div>
+      </nav>
+      <section class="page">
+        <article class="greeting-box">
+          <h2 class="greeting-box-heading">TodoTicker</h2>
+          <h4 class="greeting-box-sub-heading">#1 Task Manager</h4>
+        </article>
+        <section class="todo-table-section">
+          <div class="todo-table-group">
+            <div class="add-task-box">
+              <button class="button button-edit">Add Task</button>
+            </div>
+          </div>
+          <div class="todo-table-group">
+            <table class="todo-table">
+              <thead class="todo-table-head">
+                <tr class="table-head-row">
+                  <th class="table-head-item">#</th>
+                  <th class="table-head-item">Task Name</th>
+                  <th class="table-head-item">Status</th>
+                  <th class="table-head-item">Edit</th>
+                  <th class="table-head-item">Remove</th>
+                </tr>
+              </thead>
+              <tbody class="todo-table-body">
+                <tr class="table-body-row">
+                  <td class="table-body-item">1</td>
+                  <td class="table-body-item">Buy Groceries</td>
+                  <td class="table-body-item">
+                    <button class="button button-todo">Todo</button>
+                  </td>
+                  <td class="table-body-item">
+                    <button class="button-logo button-edit">
+                      <i class="fa-solid fa-pencil"></i>
+                    </button>
+                  </td>
+                  <td class="table-body-item">
+                    <button class="button-logo button-remove">
+                      <i class="fa-solid fa-trash"></i>
+                    </button>
+                  </td>
+                </tr>
+                <tr class="table-body-row">
+                  <td class="table-body-item">2</td>
+                  <td class="table-body-item">Send Mail</td>
+                  <td class="table-body-item">
+                    <button class="button button-inprogress">
+                      In Progress
+                    </button>
+                  </td>
+                  <td class="table-body-item">
+                    <button class="button-logo button-edit">
+                      <i class="fa-solid fa-pencil"></i>
+                    </button>
+                  </td>
+                  <td class="table-body-item">
+                    <button class="button-logo button-remove">
+                      <i class="fa-solid fa-trash"></i>
+                    </button>
+                  </td>
+                </tr>
+                <tr class="table-body-row">
+                  <td class="table-body-item">3</td>
+                  <td class="table-body-item">Finish Assignment</td>
+                  <td class="table-body-item">
+                    <button class="button button-completed">Complete</button>
+                  </td>
+                  <td class="table-body-item">
+                    <button class="button-logo button-edit">
+                      <i class="fa-solid fa-pencil"></i>
+                    </button>
+                  </td>
+                  <td class="table-body-item">
+                    <button class="button-logo button-remove">
+                      <i class="fa-solid fa-trash"></i>
+                    </button>
+                  </td>
+                </tr>
+                <tr class="table-body-row">
+                  <td class="table-body-item">4</td>
+                  <td class="table-body-item">Bake Cake</td>
+                  <td class="table-body-item">
+                    <button class="button button-todo">Todo</button>
+                  </td>
+                  <td class="table-body-item">
+                    <button class="button-logo button-edit">
+                      <i class="fa-solid fa-pencil"></i>
+                    </button>
+                  </td>
+                  <td class="table-body-item">
+                    <button class="button-logo button-remove">
+                      <i class="fa-solid fa-trash"></i>
+                    </button>
+                  </td>
+                </tr>
+                <tr class="table-body-row">
+                  <td class="table-body-item">5</td>
+                  <td class="table-body-item">Write Blog Post</td>
+                  <td class="table-body-item">
+                    <button class="button button-inprogress">
+                      In Progress
+                    </button>
+                  </td>
+                  <td class="table-body-item">
+                    <button class="button-logo button-edit">
+                      <i class="fa-solid fa-pencil"></i>
+                    </button>
+                  </td>
+                  <td class="table-body-item">
+                    <button class="button-logo button-remove">
+                      <i class="fa-solid fa-trash"></i>
+                    </button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+      </section>
+      <footer></footer>
+    </section>
+  </body>
+</html>
