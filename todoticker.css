@@ -12,14 +12,16 @@
 .todo-table-section {
   display: flex;
   flex-direction: column;
+  row-gap: 2rem;
 }
 .add-task-box {
   display: flex;
+  flex-direction: row;
   justify-content: end;
-  /* border: 2px solid red; */
 }
 .todo-table {
   border-collapse: collapse;
+  width: 70rem;
 }
 
 .page {
@@ -33,6 +35,8 @@
   text-align: center;
   vertical-align: middle;
   padding: 1rem;
+  min-width: 5rem;
+  /* max-width: 20rem; */
 }
 
 .todo-table .todo-table-head {
@@ -42,9 +46,54 @@
 .todo-table .table-body-row {
   border-bottom: 2px solid rgb(212, 212, 212);
 }
+@media only screen and (min-width: 1028px) {
+  /* .todo-table-group {
+    display: none;
+  } */
+  .mobile {
+    display: none !important;
+  }
+}
+
+@media only screen and (max-width: 1028px) {
+  .table-body-row,
+  .table-head-row {
+    display: flex;
+    flex-flow: column;
+  }
+  .desktop {
+    display: none;
+  }
+  * {
+    margin: 0.5rem;
+  }
+  .form-group {
+    align-items: center;
+  }
+
+  .form-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-self: center;
+    border: 2px solid red;
+  }
+  .form-content,
+  .add-task-box {
+    width: 100%;
+    justify-content: center;
+  }
+  .button-logo {
+    background: transparent;
+    padding: 0.2rem !important;
+
+    border-radius: 0.2rem;
+  }
+}
 
 .table-body-item {
   padding: 1rem;
+  align-self: center;
 }
 .button {
   padding: 0.5rem 1rem;
@@ -54,6 +103,7 @@
 
 .button-inprogress,
 .button-inprogress::after {
+  width: 8rem;
   color: orange;
   border: 1px solid orange;
   transition: all 0.5s;
@@ -98,12 +148,12 @@
 }
 .button-remove,
 .button-remove::after {
-  color: grey;
-  border: 1px solid grey;
+  color: lightcoral;
+  border: 1px solid lightcoral;
   transition: all 0.5s;
 }
 .button-remove:hover {
-  background-color: lightslategray;
+  background-color: red;
   color: black;
   transition: all 0.5s;
 }
@@ -121,4 +171,57 @@
 .greeting-box-sub-heading {
   color: grey;
   font-weight: 400;
+}
+
+.form {
+  align-items: center;
+  justify-content: space-between;
+  /* width: 100%; */
+  display: flex;
+  flex-flow: row wrap;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  row-gap: 0.5rem;
+}
+
+.form-input,
+.form-input::after {
+  padding: 0.2rem 0.5rem;
+  border-radius: 0.2rem;
+  border: 1px solid black;
+  outline: 1px solid transparent;
+  transition: all 0.5s;
+  /* padding-right: 2rem; */
+}
+
+.form-input:focus {
+  border: 1px solid rgb(182, 255, 255);
+  outline: 1px solid lightblue;
+  transition: all 0.5s;
+}
+
+.form-content {
+  display: flex;
+  flex-flow: row wrap;
+  column-gap: 2rem;
+}
+.card-box {
+  display: flex;
+  flex-flow: column wrap;
+  justify-content: center;
+  row-gap: 1rem;
+}
+.card {
+  border: 2px solid gray;
+  box-shadow: 2px 5px 5px #888888;
+  border-radius: 0.2rem;
+}
+.card-group {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
 }

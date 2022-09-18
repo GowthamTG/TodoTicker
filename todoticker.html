@@ -16,6 +16,7 @@
       crossorigin="anonymous"
     ></script>
     <title>TodoTicker</title>
+    <script src="./todoticker.js"></script>
   </head>
   <body>
     <section class="main">
@@ -28,108 +29,72 @@
           <h4 class="greeting-box-sub-heading">#1 Task Manager</h4>
         </article>
         <section class="todo-table-section">
-          <div class="todo-table-group">
-            <div class="add-task-box">
-              <button class="button button-edit">Add Task</button>
-            </div>
+          <div class="todo-table-group form-container">
+            <form action="" id="form" class="form">
+              <section class="form-content">
+                <div class="form-group">
+                  <div class="form-label">Task Name</div>
+                  <input
+                    required
+                    type="text"
+                    id="taskName"
+                    class="form-input"
+                  />
+                </div>
+                <div class="form-group">
+                  <div class="form-label">Status</div>
+                  <select required class="form-input" name="" id="status">
+                    <option value="inprogress">In Progress</option>
+                    <option value="todo">Todo</option>
+                    <option value="complete">Complete</option>
+                  </select>
+                </div>
+              </section>
+
+              <div class="add-task-box">
+                <button type="submit" class="button button-edit">
+                  Add Task
+                </button>
+              </div>
+            </form>
           </div>
-          <div class="todo-table-group">
+          <div class="todo-table-group desktop">
             <table class="todo-table">
               <thead class="todo-table-head">
                 <tr class="table-head-row">
-                  <th class="table-head-item">#</th>
+                  <th class="table-head-item">Task No</th>
                   <th class="table-head-item">Task Name</th>
-                  <th class="table-head-item">Status</th>
+                  <th class="table-head-item status-column">Status</th>
                   <th class="table-head-item">Edit</th>
                   <th class="table-head-item">Remove</th>
                 </tr>
               </thead>
-              <tbody class="todo-table-body">
+              <tbody id="desktop-insert-area" class="todo-table-body">
                 <tr class="table-body-row">
-                  <td class="table-body-item">1</td>
-                  <td class="table-body-item">Buy Groceries</td>
-                  <td class="table-body-item">
-                    <button class="button button-todo">Todo</button>
+                  <td id="taskid1" class="table-body-item">1</td>
+                  <td id="taskName1" class="table-body-item">
+                    Task Name Assigment
                   </td>
                   <td class="table-body-item">
-                    <button class="button-logo button-edit">
+                    <button id="progress1" class="button button-todo">
+                      Todo
+                    </button>
+                  </td>
+                  <td class="table-body-item">
+                    <button
+                      onClick="onEdit(this.id)"
+                      id="edit1"
+                      class="button-logo button-edit"
+                    >
                       <i class="fa-solid fa-pencil"></i>
                     </button>
                   </td>
                   <td class="table-body-item">
-                    <button class="button-logo button-remove">
-                      <i class="fa-solid fa-trash"></i>
-                    </button>
-                  </td>
-                </tr>
-                <tr class="table-body-row">
-                  <td class="table-body-item">2</td>
-                  <td class="table-body-item">Send Mail</td>
-                  <td class="table-body-item">
-                    <button class="button button-inprogress">
-                      In Progress
-                    </button>
-                  </td>
-                  <td class="table-body-item">
-                    <button class="button-logo button-edit">
-                      <i class="fa-solid fa-pencil"></i>
-                    </button>
-                  </td>
-                  <td class="table-body-item">
-                    <button class="button-logo button-remove">
-                      <i class="fa-solid fa-trash"></i>
-                    </button>
-                  </td>
-                </tr>
-                <tr class="table-body-row">
-                  <td class="table-body-item">3</td>
-                  <td class="table-body-item">Finish Assignment</td>
-                  <td class="table-body-item">
-                    <button class="button button-completed">Complete</button>
-                  </td>
-                  <td class="table-body-item">
-                    <button class="button-logo button-edit">
-                      <i class="fa-solid fa-pencil"></i>
-                    </button>
-                  </td>
-                  <td class="table-body-item">
-                    <button class="button-logo button-remove">
-                      <i class="fa-solid fa-trash"></i>
-                    </button>
-                  </td>
-                </tr>
-                <tr class="table-body-row">
-                  <td class="table-body-item">4</td>
-                  <td class="table-body-item">Bake Cake</td>
-                  <td class="table-body-item">
-                    <button class="button button-todo">Todo</button>
-                  </td>
-                  <td class="table-body-item">
-                    <button class="button-logo button-edit">
-                      <i class="fa-solid fa-pencil"></i>
-                    </button>
-                  </td>
-                  <td class="table-body-item">
-                    <button class="button-logo button-remove">
-                      <i class="fa-solid fa-trash"></i>
-                    </button>
-                  </td>
-                </tr>
-                <tr class="table-body-row">
-                  <td class="table-body-item">5</td>
-                  <td class="table-body-item">Write Blog Post</td>
-                  <td class="table-body-item">
-                    <button class="button button-inprogress">
-                      In Progress
-                    </button>
-                  </td>
-                  <td class="table-body-item">
-                    <button class="button-logo button-edit">
-                      <i class="fa-solid fa-pencil"></i>
-                    </button>
-                  </td>
-                  <td class="table-body-item">
-                    <button class="button-logo button-remove">
+                    <button
+                      onClick="onRemove(this.id)"
+                      id="remove1"
+                      class="button-logo button-remove"
+                    >
                       <i class="fa-solid fa-trash"></i>
                     </button>
                   </td>
@@ -137,6 +102,39 @@
               </tbody>
             </table>
           </div>
+          <section class="card-box mobile">
+            <div class="card">
+              <div class="card-group">
+                <div class="card-sub-group">
+                  <h4 id="taskid1" class="card-heading">1</h4>
+                </div>
+                <div class="card-sub-group">
+                  <button
+                    onClick="onEdit(this.id)"
+                    id="edit1"
+                    class="button-logo button-edit"
+                  >
+                    <i class="fa-solid fa-pencil"></i>
+                  </button>
+                  <button
+                    onClick="onRemove(this.id)"
+                    id="remove1"
+                    class="button-logo button-remove"
+                  >
+                    <i class="fa-solid fa-trash"></i>
+                  </button>
+                </div>
+              </div>
+              <div id="taskName1" class="card-group">
+                <p>Task Name 1</p>
+              </div>
+              <div class="card-group">
+                <button id="progress1" class="button button-inprogress">
+                  Todo
+                </button>
+              </div>
+            </div>
+          </section>
         </section>
       </section>
       <footer></footer>
