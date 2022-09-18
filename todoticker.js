@@ -3,10 +3,8 @@ if (tasks === null) {
   localStorage.setItem("TODO", []);
 }
 const form = document.getElementById("form");
-const editButton = (id) => {
-  const tableBodyItemEdit = document.createElement("td");
-  tableBodyItemEdit.classList.add("table-body-item");
 
+editButtonCreator = (id) => {
   const editButton = document.createElement("button");
   editButton.classList.add("button-logo", "button-edit");
   editButton.setAttribute("id", "edit" + id);
@@ -18,14 +16,10 @@ const editButton = (id) => {
   editIcon.classList.add("fa-solid", "fa-pencil");
 
   editButton.appendChild(editIcon);
-  tableBodyItemEdit.appendChild(editButton);
-
-  return tableBodyItemEdit;
+  return editButton;
 };
-const removeButton = (id) => {
-  const tableBodyItemRemove = document.createElement("td");
-  tableBodyItemRemove.classList.add("table-body-item");
 
+removeButtonCreator = (id) => {
   const removeButton = document.createElement("button");
   removeButton.classList.add("button-logo", "button-remove");
   removeButton.setAttribute("id", "remove" + id);
@@ -37,64 +31,135 @@ const removeButton = (id) => {
   removeIcon.classList.add("fa-solid", "fa-trash");
 
   removeButton.appendChild(removeIcon);
+  return removeButton;
+};
+
+const editButtonTable = (id) => {
+  const tableBodyItemEdit = document.createElement("td");
+  tableBodyItemEdit.classList.add("table-body-item");
+
+  const editButton = editButtonCreator(id);
+  tableBodyItemEdit.appendChild(editButton);
+
+  return tableBodyItemEdit;
+};
+
+const removeButtonTable = (id) => {
+  const tableBodyItemRemove = document.createElement("td");
+  tableBodyItemRemove.classList.add("table-body-item");
+
+  const removeButton = removeButtonCreator(id);
   tableBodyItemRemove.appendChild(removeButton);
 
   return tableBodyItemRemove;
 };
 
-const getProgress = (val, id) => {
-  if (val === "inprogress") {
-    return getProgressButton(id);
-  } else if (val === "todo") {
-    return todoButton(id);
-  }
-  return getCompletedButton(id);
-};
-
-const getProgressButton = (id) => {
-  const progress = document.createElement("td");
+const getProgressButtonGenerator = (id) => {
   const progressButton = document.createElement("button");
-  progress.classList.add("table-body-item");
   progressButton.classList.add("button", "button-inprogress");
   progressButton.innerText = "In Progress";
   progressButton.setAttribute("id", "progress" + id);
-  progress.appendChild(progressButton);
-  return progress;
+  return progressButton;
 };
-
-const getCompletedButton = (id) => {
-  const completed = document.createElement("td");
+const getCompletedButtonGenerator = (id) => {
   const completedButton = document.createElement("button");
-  completed.classList.add("table-body-item");
   completedButton.classList.add("button", "button-completed");
   completedButton.innerText = "Completed";
   completedButton.setAttribute("id", "progress" + id);
-  completed.appendChild(completedButton);
-  return completed;
+  return completedButton;
 };
-
-const todoButton = (id) => {
-  const todo = document.createElement("td");
+const getTodoButtonGenerator = (id) => {
   const todoButton = document.createElement("button");
-  todo.classList.add("table-body-item");
   todoButton.classList.add("button", "button-todo");
   todoButton.innerText = "Todo";
   todoButton.setAttribute("id", "progress" + id);
-  todo.appendChild(todoButton);
+  return todoButton;
+};
+
+const getProgressButtonTable = (id) => {
+  const progress = document.createElement("td");
+  progress.classList.add("table-body-item");
+
+  progress.appendChild(getProgressButtonGenerator(id));
+  return progress;
+};
+
+const getCompletedButtonTable = (id) => {
+  const completed = document.createElement("td");
+  completed.classList.add("table-body-item");
+
+  completed.appendChild(getCompletedButtonGenerator(id));
+  return completed;
+};
+
+const getTodoButtonTable = (id) => {
+  const todo = document.createElement("td");
+  todo.classList.add("table-body-item");
+
+  todo.appendChild(getTodoButtonGenerator(id));
   return todo;
 };
-const addTask = () => {
-  tasks = JSON.parse(localStorage.getItem("TODO"));
-  if (tasks.length === 0) tasks = [];
-  taskName = document.getElementById("taskName").value;
-  statusType = document.getElementById("status").value;
-  tasks.push({ taskName: taskName, progress: statusType });
-  localStorage.setItem("TODO", JSON.stringify(tasks));
-  displayTasks();
+
+const getProgressGenerator = (val, id) => {
+  if (val === "inprogress") {
+    return getProgressButtonGenerator(id);
+  } else if (val === "todo") {
+    return getTodoButtonGenerator(id);
+  }
+  return getCompletedButtonGenerator(id);
+};
+
+const getProgressTable = (val, id) => {
+  if (val === "inprogress") {
+    return getProgressButtonTable(id);
+  } else if (val === "todo") {
+    return getTodoButtonTable(id);
+  }
+  return getCompletedButtonTable(id);
 };
 
 const displayTasksMobile = () => {
   tasks = JSON.parse(localStorage.getItem("TODO"));
+  const insertTag = document.getElementById("mobile-insert-area");
+  insertTag.innerHTML = "";
+  for (let index = 0; index < tasks.length; index++) {
+    const task = tasks[index];
+    id = index + 1;
+    const card = document.createElement("div");
+    card.classList.add("card");
+    const cardGroup1 = document.createElement("div");
+    cardGroup1.classList.add("card-group");
+    const cardSubGroup1 = document.createElement("div");
+    cardSubGroup1.classList.add("card-sub-group");
+    const cardHeading = document.createElement("h4");
+    cardHeading.setAttribute("id", "taskid" + id);
+    cardHeading.classList.add("card-heading");
+    cardHeading.innerText = id;
+    cardSubGroup1.appendChild(cardHeading);
+    cardGroup1.appendChild(cardSubGroup1);
+
+    const cardSubGroup2 = document.createElement("div");
+    cardSubGroup2.appendChild(editButtonCreator(id));
+    cardSubGroup2.appendChild(removeButtonCreator(id));
+    cardGroup1.appendChild(cardSubGroup2);
+
+    const cardGroup2 = document.createElement("div");
+    cardGroup2.classList.add("card-group");
+    const taskName = document.createElement("p");
+    taskName.innerHTML = task.taskName;
+    taskName.setAttribute("id", "taskName" + id);
+    cardGroup2.appendChild(taskName);
+
+    const cardGroup3 = document.createElement("div");
+    cardGroup3.classList.add("card-group");
+    cardGroup3.appendChild(getProgressGenerator(task.progress, id));
+
+    card.appendChild(cardGroup1);
+    card.appendChild(cardGroup2);
+    card.appendChild(cardGroup3);
+
+    insertTag.appendChild(card);
+  }
 };
 
 const displayTasksDesktop = () => {
@@ -107,9 +172,9 @@ const displayTasksDesktop = () => {
     const tableBodyRow = document.createElement("tr");
     const tableBodyItemTaskId = document.createElement("td");
     const tableBodyItemTaskName = document.createElement("td");
-    const tableBodyItemProgress = getProgress(task.progress, id);
-    const editButtonItem = editButton(id);
-    const removeButtonItem = removeButton(id);
+    const tableBodyItemProgress = getProgressTable(task.progress, id);
+    const editButtonItem = editButtonTable(id);
+    const removeButtonItem = removeButtonTable(id);
     tableBodyRow.classList.add("table-body-row");
 
     tableBodyItemTaskId.classList.add("table-body-item");
@@ -130,7 +195,7 @@ const displayTasksDesktop = () => {
 };
 
 const displayTasks = () => {
-  // displayTasksMobile();
+  displayTasksMobile();
   displayTasksDesktop();
 };
 
@@ -144,6 +209,16 @@ window.addEventListener("load", () => {
   displayTasks();
   onReset();
 });
+
+const addTask = () => {
+  tasks = JSON.parse(localStorage.getItem("TODO"));
+  if (tasks.length === 0) tasks = [];
+  taskName = document.getElementById("taskName").value;
+  statusType = document.getElementById("status").value;
+  tasks.push({ taskName: taskName, progress: statusType });
+  localStorage.setItem("TODO", JSON.stringify(tasks));
+  displayTasks();
+};
 
 const onEdit = (id) => {
   tasks = JSON.parse(localStorage.getItem("TODO"));
