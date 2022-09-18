@@ -11,7 +11,7 @@ const editButton = (id) => {
   editButton.classList.add("button-logo", "button-edit");
   editButton.setAttribute("id", "edit" + id);
   editButton.onclick = function () {
-    onedit(id.toString());
+    onEdit(id.toString());
   };
 
   const editIcon = document.createElement("i");
@@ -57,7 +57,7 @@ const getProgressButton = (id) => {
   progress.classList.add("table-body-item");
   progressButton.classList.add("button", "button-inprogress");
   progressButton.innerText = "In Progress";
-  progressButton.setAttribute("id", "process" + id);
+  progressButton.setAttribute("id", "progress" + id);
   progress.appendChild(progressButton);
   return progress;
 };
@@ -68,7 +68,7 @@ const getCompletedButton = (id) => {
   completed.classList.add("table-body-item");
   completedButton.classList.add("button", "button-completed");
   completedButton.innerText = "Completed";
-  completedButton.setAttribute("id", "process" + id);
+  completedButton.setAttribute("id", "progress" + id);
   completed.appendChild(completedButton);
   return completed;
 };
@@ -79,15 +79,13 @@ const todoButton = (id) => {
   todo.classList.add("table-body-item");
   todoButton.classList.add("button", "button-todo");
   todoButton.innerText = "Todo";
-  todoButton.setAttribute("id", "process" + id);
+  todoButton.setAttribute("id", "progress" + id);
   todo.appendChild(todoButton);
   return todo;
 };
 const addTask = () => {
   tasks = JSON.parse(localStorage.getItem("TODO"));
-  console.log("FHSDHFHJHSDFj");
   if (tasks.length === 0) tasks = [];
-  console.log(tasks);
   taskName = document.getElementById("taskName").value;
   statusType = document.getElementById("status").value;
   tasks.push({ taskName: taskName, progress: statusType });
@@ -105,7 +103,6 @@ const displayTasksDesktop = () => {
   insertTag.innerHTML = "";
   for (let index = 0; index < tasks.length; index++) {
     const task = tasks[index];
-    console.log(task.taskName);
     id = index + 1;
     const tableBodyRow = document.createElement("tr");
     const tableBodyItemTaskId = document.createElement("td");
@@ -113,8 +110,6 @@ const displayTasksDesktop = () => {
     const tableBodyItemProgress = getProgress(task.progress, id);
     const editButtonItem = editButton(id);
     const removeButtonItem = removeButton(id);
-    console.log(editButtonItem);
-    console.log(removeButtonItem);
     tableBodyRow.classList.add("table-body-row");
 
     tableBodyItemTaskId.classList.add("table-body-item");
@@ -125,11 +120,6 @@ const displayTasksDesktop = () => {
     tableBodyItemTaskName.setAttribute("id", "taskName" + id);
     tableBodyItemTaskName.innerHTML = task.taskName;
 
-    // tableBodyItemProgress.classList.add("table-body-item");
-    // tableBodyItemProgress.setAttribute("id", "progress" + id);
-    // tableBodyItemProgress.appendChild(getProgress(task.progress));
-
-    console.log(getProgress(task.progress));
     tableBodyRow.appendChild(tableBodyItemTaskId);
     tableBodyRow.appendChild(tableBodyItemTaskName);
     tableBodyRow.appendChild(tableBodyItemProgress);
@@ -149,36 +139,72 @@ window.addEventListener("load", () => {
 
   form.addEventListener("submit", (event) => {
     event.preventDefault();
-    // tasks = JSON.parse(localStorage.getItem("TODO"));
     addTask();
   });
+  displayTasks();
+  onReset();
 });
 
 const onEdit = (id) => {
   tasks = JSON.parse(localStorage.getItem("TODO"));
 
   id = +id.replace(/[^0-9]/g, "");
+  const taskNoInputBox = document.getElementById("task-no-box");
+  taskNoInputBox.style.display = "flex";
+  const editTaskButton = document.getElementById("edit-task");
+  editTaskButton.style.display = "flex";
+  const resetFormButton = document.getElementById("reset-form");
+  resetFormButton.style.display = "flex";
+  const addTaskButton = document.getElementById("add-task");
+  addTaskButton.style.display = "none";
+  const taskNoInput = document.getElementById("taskNo");
+  taskNoInput.value = id;
   const taskNameInput = document.getElementById("taskName");
   taskNameInput.value = document
     .getElementById("taskName" + id)
-    .innerHTML.trim();
+    .innerText.trim();
   const taskStatusInput = document.getElementById("status");
   taskStatusInput.value = document
     .getElementById("progress" + id)
-    .innerHTML.replace(/\s/g, "")
+    .innerText.replace(/\s/g, "")
     .toLowerCase();
 };
 
 const onRemove = (id) => {
   tasks = JSON.parse(localStorage.getItem("TODO"));
-
   id = +id.replace(/[^0-9]/g, "");
-  confirm("Do you want to delete the task with ID " + id);
+  const deleteOrNot = confirm("Do you want to delete the task with ID " + id);
+  console.log(deleteOrNot);
+  if (deleteOrNot) {
+    tasks = JSON.parse(localStorage.getItem("TODO"));
+    tasks.splice(id - 1, 1);
+    localStorage.setItem("TODO", JSON.stringify(tasks));
+    displayTasks();
+  }
+};
+
+const onReset = () => {
+  const taskNoInputBox = document.getElementById("task-no-box");
+  taskNoInputBox.style.display = "none";
+  const editTaskButton = document.getElementById("edit-task");
+  editTaskButton.style.display = "none";
+  const resetFormButton = document.getElementById("reset-form");
+  resetFormButton.style.display = "none";
+  const addTaskButton = document.getElementById("add-task");
+  addTaskButton.style.display = "flex";
+};
+
+const onSubmitEdit = () => {
   tasks = JSON.parse(localStorage.getItem("TODO"));
-  tasks = tasks.filter(function (task) {
-    return task.id !== id;
-  });
+  console.log(tasks);
+  const taskNoInput = +document.getElementById("taskNo").value;
+  const taskNameInput = document.getElementById("taskName").value;
+  const taskStatusInput = document.getElementById("status").value;
+  console.log(taskNoInput);
+  console.log(taskNameInput);
+  console.log(taskStatusInput);
+  tasks[taskNoInput - 1].taskName = taskNameInput;
+  tasks[taskNoInput - 1].progress = taskStatusInput;
   localStorage.setItem("TODO", JSON.stringify(tasks));
   displayTasks();
 };
-// displayTasks();
