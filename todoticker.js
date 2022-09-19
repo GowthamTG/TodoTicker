@@ -201,7 +201,6 @@ const displayTasks = () => {
 
 window.addEventListener("load", () => {
   const form = document.getElementById("form");
-
   form.addEventListener("submit", (event) => {
     event.preventDefault();
     addTask();
@@ -216,6 +215,13 @@ const addTask = () => {
   if (tasks.length === 0) tasks = [];
   taskName = document.getElementById("taskName").value;
   statusType = document.getElementById("status").value;
+  for (const task of tasks) {
+    console.log(task.taskName.toLowerCase());
+    if (task.taskName.toLowerCase().includes(taskName.toLowerCase())) {
+      alert("Task Name " + taskName + " Already Exists");
+      return;
+    }
+  }
   tasks.push({ taskName: taskName, progress: statusType });
   localStorage.setItem("TODO", JSON.stringify(tasks));
   displayTasks();
@@ -225,7 +231,6 @@ const addTask = () => {
 
 const onEdit = (id) => {
   tasks = JSON.parse(localStorage.getItem("TODO"));
-
   id = +id.replace(/[^0-9]/g, "");
   const taskNoInputBox = document.getElementById("task-no-box");
   taskNoInputBox.style.display = "flex";
@@ -278,9 +283,13 @@ const onSubmitEdit = () => {
   const taskNoInput = +document.getElementById("taskNo").value;
   const taskNameInput = document.getElementById("taskName").value;
   const taskStatusInput = document.getElementById("status").value;
-  console.log(taskNoInput);
-  console.log(taskNameInput);
-  console.log(taskStatusInput);
+  for (const task of tasks) {
+    console.log(task.taskName.toLowerCase());
+    if (task.taskName.toLowerCase().includes(taskNameInput.toLowerCase())) {
+      alert("Task Name " + taskNameInput + " Already Exists");
+      return;
+    }
+  }
   tasks[taskNoInput - 1].taskName = taskNameInput;
   tasks[taskNoInput - 1].progress = taskStatusInput;
   localStorage.setItem("TODO", JSON.stringify(tasks));
