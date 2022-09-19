@@ -1,6 +1,6 @@
 tasks = JSON.parse(localStorage.getItem("TODO"));
 if (tasks === null) {
-  localStorage.setItem("TODO", []);
+  localStorage.setItem("TODO", JSON.stringify([]));
 }
 const form = document.getElementById("form");
 
@@ -208,6 +208,7 @@ window.addEventListener("load", () => {
   });
   displayTasks();
   onReset();
+  form.reset();
 });
 
 const addTask = () => {
@@ -218,6 +219,8 @@ const addTask = () => {
   tasks.push({ taskName: taskName, progress: statusType });
   localStorage.setItem("TODO", JSON.stringify(tasks));
   displayTasks();
+  const form = document.getElementById("form");
+  form.reset();
 };
 
 const onEdit = (id) => {
