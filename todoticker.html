@@ -68,14 +68,18 @@
               </section>
 
               <div class="add-task-box">
-                <button type="submit" id="add-task" class="button button-edit">
+                <button
+                  type="submit"
+                  id="add-task"
+                  class="button button-edit form-button"
+                >
                   Add Task
                 </button>
                 <button
                   type="button"
                   onclick="onSubmitEdit()"
                   id="edit-task"
-                  class="button button-edit"
+                  class="button button-edit form-button"
                 >
                   Edit Task
                 </button>
@@ -83,11 +87,61 @@
                   type="reset"
                   onclick="onReset()"
                   id="reset-form"
-                  class="button button-edit"
+                  class="button button-edit form-button"
                 >
                   Go Back
                 </button>
-                <!-- <button class="button button-remove" type="reset">Reset</button> -->
+              </div>
+            </form>
+          </div>
+          <div class="todo-table-group form-container">
+            <form action="" id="search-form" class="form">
+              <section class="form-content">
+                <div class="form-group">
+                  <div class="form-label">Search Option</div>
+                  <select
+                    required
+                    class="form-input"
+                    name=""
+                    id="search-option"
+                  >
+                    <option class="dropdown-option" value="taskno">
+                      Task No
+                    </option>
+                    <option class="dropdown-option" value="taskname">
+                      Task Name
+                    </option>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <div class="form-label">Search Criteria</div>
+                  <input
+                    required
+                    placeholder="Ex: Go to Work"
+                    autocomplete="off"
+                    type="text"
+                    id="search-criteria"
+                    class="form-input"
+                  />
+                </div>
+              </section>
+
+              <div class="add-task-box">
+                <button
+                  type="submit"
+                  id="search"
+                  class="button button-edit form-button"
+                >
+                  Search
+                </button>
+                <button
+                  type="reset"
+                  id="search"
+                  class="button button-edit form-button"
+                  onclick="onSearchReset()"
+                >
+                  Reset
+                </button>
               </div>
             </form>
           </div>
@@ -96,81 +150,19 @@
               <thead class="todo-table-head">
                 <tr class="table-head-row">
                   <th class="table-head-item">Task No</th>
-                  <th class="table-head-item">Task Name</th>
+                  <th class="table-head-item task-name-column">Task Name</th>
                   <th class="table-head-item status-column">Status</th>
                   <th class="table-head-item">Edit</th>
                   <th class="table-head-item">Remove</th>
                 </tr>
               </thead>
-              <tbody id="desktop-insert-area" class="todo-table-body">
-                <tr class="table-body-row">
-                  <td id="taskid1" class="table-body-item">1</td>
-                  <td id="taskName1" class="table-body-item">
-                    Task Name Assigment
-                  </td>
-                  <td class="table-body-item">
-                    <button id="progress1" class="button button-todo">
-                      Todo
-                    </button>
-                  </td>
-                  <td class="table-body-item">
-                    <button
-                      onClick="onEdit(this.id)"
-                      id="edit1"
-                      class="button-logo button-edit"
-                    >
-                      <i class="fa-solid fa-pencil"></i>
-                    </button>
-                  </td>
-                  <td class="table-body-item">
-                    <button
-                      onClick="onRemove(this.id)"
-                      id="remove1"
-                      class="button-logo button-remove"
-                    >
-                      <i class="fa-solid fa-trash"></i>
-                    </button>
-                  </td>
-                </tr>
-              </tbody>
+              <tbody id="desktop-insert-area" class="todo-table-body"></tbody>
             </table>
           </div>
-          <section class="card-box mobile" id="mobile-insert-area">
-            <div class="card">
-              <div class="card-group">
-                <div class="card-sub-group">
-                  <h4 id="taskid1" class="card-heading">1</h4>
-                </div>
-                <div class="card-sub-group">
-                  <button
-                    onClick="onEdit(this.id)"
-                    id="edit1"
-                    class="button-logo button-edit"
-                  >
-                    <i class="fa-solid fa-pencil"></i>
-                  </button>
-                  <button
-                    onClick="onRemove(this.id)"
-                    id="remove1"
-                    class="button-logo button-remove"
-                  >
-                    <i class="fa-solid fa-trash"></i>
-                  </button>
-                </div>
-              </div>
-              <div class="card-group">
-                <p id="taskName1">Task Name 1</p>
-              </div>
-              <div class="card-group">
-                <button id="progress1" class="button button-inprogress">
-                  Todo
-                </button>
-              </div>
-            </div>
-          </section>
+          <section class="card-box mobile" id="mobile-insert-area"></section>
         </section>
       </section>
-      <footer></footer>
+      <footer id="no-data-section"></footer>
     </section>
   </body>
 </html>

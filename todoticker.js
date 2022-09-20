@@ -148,6 +148,8 @@ const displayTasksMobile = () => {
     const taskName = document.createElement("p");
     taskName.innerHTML = task.taskName;
     taskName.setAttribute("id", "taskName" + id);
+    taskName.classList.add("card-heading");
+
     cardGroup2.appendChild(taskName);
 
     const cardGroup3 = document.createElement("div");
@@ -195,8 +197,19 @@ const displayTasksDesktop = () => {
 };
 
 const displayTasks = () => {
-  displayTasksMobile();
-  displayTasksDesktop();
+  tasks = JSON.parse(localStorage.getItem("TODO"));
+  console.log(tasks);
+  const noDataInsertLocation = document.getElementById("no-data-section");
+  noDataInsertLocation.innerHTML = "";
+  if (tasks.length === 0) {
+    const noDataTag = document.createElement("div");
+    noDataTag.classList.add("no-data");
+    noDataTag.innerHTML = "No Data Available";
+    noDataInsertLocation.appendChild(noDataTag);
+  } else {
+    displayTasksMobile();
+    displayTasksDesktop();
+  }
 };
 
 window.addEventListener("load", () => {
@@ -205,9 +218,23 @@ window.addEventListener("load", () => {
     event.preventDefault();
     addTask();
   });
+  const searchForm = document.getElementById("search-form");
+  searchForm.addEventListener("submit", (event) => {
+    event.preventDefault();
+    searchTasks();
+  });
+  // searchForm.addEventListener("reset", (event) => {
+  //   event.preventDefault();
+  //   onSearchReset();
+  // });
+  // const mainTask = JSON.parse(localStorage.getItem("MAIN-TODO"));
+  // const tasks = JSON.parse(localStorage.getItem("TODO"));
+  // localStorage.setItem("MAIN-TODO", JSON.stringify(tasks));
+
   displayTasks();
   onReset();
   form.reset();
+  searchForm.reset();
 });
 
 const addTask = () => {
@@ -224,6 +251,8 @@ const addTask = () => {
   }
   tasks.push({ taskName: taskName, progress: statusType });
   localStorage.setItem("TODO", JSON.stringify(tasks));
+  localStorage.setItem("MAIN-TODO", JSON.stringify(tasks));
+
   displayTasks();
   const form = document.getElementById("form");
   form.reset();
@@ -232,6 +261,7 @@ const addTask = () => {
 const onEdit = (id) => {
   tasks = JSON.parse(localStorage.getItem("TODO"));
   id = +id.replace(/[^0-9]/g, "");
+  document.body.scrollTop = document.documentElement.scrollTop = 0;
   const taskNoInputBox = document.getElementById("task-no-box");
   taskNoInputBox.style.display = "flex";
   const editTaskButton = document.getElementById("edit-task");
@@ -261,7 +291,10 @@ const onRemove = (id) => {
   if (deleteOrNot) {
     tasks = JSON.parse(localStorage.getItem("TODO"));
     tasks.splice(id - 1, 1);
+    console.log(tasks);
     localStorage.setItem("TODO", JSON.stringify(tasks));
+    localStorage.setItem("MAIN-TODO", JSON.stringify(tasks));
+
     displayTasks();
   }
 };
@@ -292,6 +325,36 @@ const onSubmitEdit = () => {
   }
   tasks[taskNoInput - 1].taskName = taskNameInput;
   tasks[taskNoInput - 1].progress = taskStatusInput;
+  localStorage.setItem("TODO", JSON.stringify(tasks));
+  localStorage.setItem("MAIN-TODO", JSON.stringify(tasks));
+
+  displayTasks();
+};
+
+const searchTasks = () => {
+  tasks = JSON.parse(localStorage.getItem("TODO"));
+  localStorage.setItem("MAIN-TODO", JSON.stringify(tasks));
+  const searchOption = +document.getElementById("search-option").value;
+  const searchCriteria = document.getElementById("search-criteria").value;
+  var tempTasks = [];
+  if (searchOption === "taskno") {
+    if (+searchCriteria - 1 < tasks.length) {
+      tempTasks.appendChild(tasks[+searchCriteria - 1]);
+    } else {
+      alert("Task Id :" + searchCriteria + "no found !");
+    }
+  } else {
+    tempTasks = tasks.filter(function (task) {
+      return task.taskName.toLowerCase().includes(searchCriteria.toLowerCase());
+    });
+  }
+  tasks = tempTasks;
+  localStorage.setItem("TODO", JSON.stringify(tasks));
+  displayTasks();
+};
+
+const onSearchReset = () => {
+  tasks = JSON.parse(localStorage.getItem("MAIN-TODO"));
   localStorage.setItem("TODO", JSON.stringify(tasks));
   displayTasks();
 };

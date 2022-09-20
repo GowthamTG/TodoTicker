@@ -7,6 +7,8 @@
   justify-content: center;
   flex-direction: column;
   align-items: center;
+  /* margin: 2rem; */
+  /* border: 2px solid red; */
 }
 
 .todo-table-section {
@@ -23,7 +25,9 @@
 }
 .todo-table {
   border-collapse: collapse;
-  width: 70rem;
+  /* width: 180%; */
+  /* margin: 1rem; */
+  width: 80vw;
 }
 
 .page {
@@ -205,7 +209,10 @@
   outline: 1px solid lightblue;
   transition: all 0.5s;
 }
-
+.form-button {
+  width: 8rem;
+  justify-content: center;
+}
 .form-content {
   display: flex;
   flex-flow: row wrap;
@@ -235,4 +242,18 @@
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
+}
+.card-heading {
+  word-wrap: normal;
+}
+.task-name-column {
+  display: block;
+  width: 50vw;
+}
+
+.no-data {
+  display: flex;
+  justify-content: center;
+  /* border: 2px solid red; */
+  color: gray;
 }
