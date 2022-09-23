@@ -124,7 +124,7 @@ const displayTasksMobile = () => {
   insertTag.innerHTML = "";
   for (let index = 0; index < tasks.length; index++) {
     const task = tasks[index];
-    id = index + 1;
+    id = task.taskNo;
     const card = document.createElement("div");
     card.classList.add("card");
     const cardGroup1 = document.createElement("div");
@@ -170,7 +170,7 @@ const displayTasksDesktop = () => {
   insertTag.innerHTML = "";
   for (let index = 0; index < tasks.length; index++) {
     const task = tasks[index];
-    id = index + 1;
+    id = task.taskNo;
     const tableBodyRow = document.createElement("tr");
     const tableBodyItemTaskId = document.createElement("td");
     const tableBodyItemTaskName = document.createElement("td");
@@ -206,14 +206,19 @@ const displayTasks = () => {
     noDataTag.classList.add("no-data");
     noDataTag.innerHTML = "No Data Available";
     noDataInsertLocation.appendChild(noDataTag);
-  } else {
-    displayTasksMobile();
-    displayTasksDesktop();
   }
+  displayTasksMobile();
+  displayTasksDesktop();
 };
 
 window.addEventListener("load", () => {
   const form = document.getElementById("form");
+  document.getElementById("sort-" + "taskNo" + "-desc").style.display = "none";
+  document.getElementById("sort-" + "taskName" + "-desc").style.display =
+    "none";
+  document.getElementById("sort-" + "progress" + "-desc").style.display =
+    "none";
+
   form.addEventListener("submit", (event) => {
     event.preventDefault();
     addTask();
@@ -240,6 +245,7 @@ window.addEventListener("load", () => {
 const addTask = () => {
   tasks = JSON.parse(localStorage.getItem("TODO"));
   if (tasks.length === 0) tasks = [];
+  taskNo = document.getElementById("taskNo").value;
   taskName = document.getElementById("taskName").value;
   statusType = document.getElementById("status").value;
   for (const task of tasks) {
@@ -249,7 +255,19 @@ const addTask = () => {
       return;
     }
   }
-  tasks.push({ taskName: taskName, progress: statusType });
+  if (taskNo === "") {
+    taskNo = (tasks.length + 1).toString();
+  }
+  tasks.sort((a, b) => {
+    return a.taskNo - b.taskNo;
+  });
+
+  for (const task of tasks) {
+    if (task.taskNo === taskNo) {
+      taskNo = (+taskNo + 1).toString();
+    }
+  }
+  tasks.push({ taskNo: taskNo, taskName: taskName, progress: statusType });
   localStorage.setItem("TODO", JSON.stringify(tasks));
   localStorage.setItem("MAIN-TODO", JSON.stringify(tasks));
 
@@ -262,8 +280,9 @@ const onEdit = (id) => {
   tasks = JSON.parse(localStorage.getItem("TODO"));
   id = +id.replace(/[^0-9]/g, "");
   document.body.scrollTop = document.documentElement.scrollTop = 0;
-  const taskNoInputBox = document.getElementById("task-no-box");
-  taskNoInputBox.style.display = "flex";
+  const taskNoInputBox = document.getElementById("taskNo");
+  // taskNoInputBox.style.display = "none";
+  taskNoInputBox.disabled = true;
   const editTaskButton = document.getElementById("edit-task");
   editTaskButton.style.display = "flex";
   const resetFormButton = document.getElementById("reset-form");
@@ -294,14 +313,14 @@ const onRemove = (id) => {
     console.log(tasks);
     localStorage.setItem("TODO", JSON.stringify(tasks));
     localStorage.setItem("MAIN-TODO", JSON.stringify(tasks));
-
     displayTasks();
   }
 };
 
 const onReset = () => {
-  const taskNoInputBox = document.getElementById("task-no-box");
-  taskNoInputBox.style.display = "none";
+  const taskNoInputBox = document.getElementById("taskNo");
+  // taskNoInputBox.style.display = "none";
+  taskNoInputBox.disabled = false;
   const editTaskButton = document.getElementById("edit-task");
   editTaskButton.style.display = "none";
   const resetFormButton = document.getElementById("reset-form");
@@ -313,7 +332,7 @@ const onReset = () => {
 const onSubmitEdit = () => {
   tasks = JSON.parse(localStorage.getItem("TODO"));
   console.log(tasks);
-  const taskNoInput = +document.getElementById("taskNo").value;
+  const taskNoInput = document.getElementById("taskNo").value;
   const taskNameInput = document.getElementById("taskName").value;
   const taskStatusInput = document.getElementById("status").value;
   for (const task of tasks) {
@@ -323,8 +342,17 @@ const onSubmitEdit = () => {
       return;
     }
   }
-  tasks[taskNoInput - 1].taskName = taskNameInput;
-  tasks[taskNoInput - 1].progress = taskStatusInput;
+
+  let foundObj = tasks.find((task) => {
+    if (taskNoInput === task.taskNo) {
+      task.taskName = taskNameInput;
+      task.progress = taskStatusInput;
+      console.log(task);
+    }
+  });
+
+  console.log(tasks);
+
   localStorage.setItem("TODO", JSON.stringify(tasks));
   localStorage.setItem("MAIN-TODO", JSON.stringify(tasks));
 
@@ -336,7 +364,7 @@ const searchTasks = () => {
   localStorage.setItem("MAIN-TODO", JSON.stringify(tasks));
   const searchOption = +document.getElementById("search-option").value;
   const searchCriteria = document.getElementById("search-criteria").value;
-  var tempTasks = [];
+  let tempTasks = [];
   if (searchOption === "taskno") {
     if (+searchCriteria - 1 < tasks.length) {
       tempTasks.appendChild(tasks[+searchCriteria - 1]);
@@ -355,6 +383,34 @@ const searchTasks = () => {
 
 const onSearchReset = () => {
   tasks = JSON.parse(localStorage.getItem("MAIN-TODO"));
+  localStorage.setItem("TODO", JSON.stringify(tasks));
+  displayTasks();
+};
+
+const sortTasks = (value, desc) => {
+  // if(value)
+  const ascField = document.getElementById("sort-" + value + "-asc");
+  const descField = document.getElementById("sort-" + value + "-desc");
+
+  if (desc) {
+    ascField.style.display = "none";
+    descField.style.display = "inline";
+  } else {
+    ascField.style.display = "inline";
+    descField.style.display = "none";
+  }
+  tasks = JSON.parse(localStorage.getItem("TODO"));
+  console.log(tasks[0][value]);
+  if (!desc) {
+    tasks.sort((a, b) =>
+      a[value] > b[value] ? 1 : b[value] > a[value] ? -1 : 0
+    );
+  } else {
+    tasks.sort((a, b) =>
+      b[value] > a[value] ? 1 : a[value] > b[value] ? -1 : 0
+    );
+  }
+
   localStorage.setItem("TODO", JSON.stringify(tasks));
   displayTasks();
 };

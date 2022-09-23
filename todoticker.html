@@ -34,13 +34,7 @@
               <section class="form-content">
                 <div class="form-group" id="task-no-box">
                   <div class="form-label">Task No</div>
-                  <input
-                    disabled
-                    required
-                    type="text"
-                    id="taskNo"
-                    class="form-input"
-                  />
+                  <input type="text" id="taskNo" class="form-input" />
                 </div>
                 <div class="form-group">
                   <div class="form-label">Task Name</div>
@@ -149,9 +143,42 @@
             <table class="todo-table">
               <thead class="todo-table-head">
                 <tr class="table-head-row">
-                  <th class="table-head-item">Task No</th>
-                  <th class="table-head-item task-name-column">Task Name</th>
-                  <th class="table-head-item status-column">Status</th>
+                  <th class="table-head-item task-no-column">
+                    Task No<i
+                      class="logo-sort fa-solid fa-angle-up"
+                      id="sort-taskNo-asc"
+                      onclick="sortTasks('taskNo',true)"
+                    ></i
+                    ><i
+                      class="logo-sort fa-solid fa-angle-down"
+                      id="sort-taskNo-desc"
+                      onclick="sortTasks('taskNo',false)"
+                    ></i>
+                  </th>
+                  <th class="table-head-item task-name-column">
+                    Task Name<i
+                      class="logo-sort fa-solid fa-angle-up"
+                      id="sort-taskName-asc"
+                      onclick="sortTasks('taskName',true)"
+                    ></i
+                    ><i
+                      class="logo-sort fa-solid fa-angle-down"
+                      id="sort-taskName-desc"
+                      onclick="sortTasks('taskName',false)"
+                    ></i>
+                  </th>
+                  <th class="table-head-item status-column">
+                    Status<i
+                      class="logo-sort fa-solid fa-angle-up"
+                      id="sort-progress-asc"
+                      onclick="sortTasks('progress',true)"
+                    ></i
+                    ><i
+                      class="logo-sort fa-solid fa-angle-down"
+                      id="sort-progress-desc"
+                      onclick="sortTasks('progress',false)"
+                    ></i>
+                  </th>
                   <th class="table-head-item">Edit</th>
                   <th class="table-head-item">Remove</th>
                 </tr>
